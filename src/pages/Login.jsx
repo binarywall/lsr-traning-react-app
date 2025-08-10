@@ -9,31 +9,64 @@ const Login = ({ onLogin }) => {
     password: ''
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
     
-    if (isSignup) {
-      // Create new user
-      const newUser = {
-        id: Date.now(),
-        name: formData.name,
-        email: formData.email,
-        createdAt: new Date().toISOString()
-      };
-      localStorage.setItem('lsrUser', JSON.stringify(newUser));
-      onLogin(newUser);
-    } else {
-      // Mock login
-      const user = {
-        id: 1,
-        name: formData.name || 'Student',
-        email: formData.email,
-        createdAt: new Date().toISOString()
-      };
-      localStorage.setItem('lsrUser', JSON.stringify(user));
-      onLogin(user);
+  //   if (isSignup) {
+  //     // Create new user
+  //     const newUser = {
+  //       id: Date.now(),
+  //       name: formData.name,
+  //       email: formData.email,
+  //       createdAt: new Date().toISOString()
+  //     };
+  //     localStorage.setItem('lsrUser', JSON.stringify(newUser));
+  //     onLogin(newUser);
+  //   } else {
+  //     // Mock login
+  //     const user = {
+  //       id: 1,
+  //       name: formData.name || 'Student',
+  //       email: formData.email,
+  //       createdAt: new Date().toISOString()
+  //     };
+  //     localStorage.setItem('lsrUser', JSON.stringify(user));
+  //     onLogin(user);
+  //   }
+  // };
+
+  const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const validUsers = [
+    {
+      id: 1,
+      name: 'Admin',
+      email: 'admin@binarywall.com',
+      password: 'binarywall@123',
     }
-  };
+    // Later you can add more here:
+    // { id: 2, name: 'User 2', email: '...', password: '...' }
+  ];
+
+  const matchedUser = validUsers.find(
+    (user) =>
+      user.email === formData.email && user.password === formData.password
+  );
+
+  if (matchedUser) {
+    const userData = {
+      ...matchedUser,
+      createdAt: new Date().toISOString(),
+    };
+    localStorage.setItem('lsrUser', JSON.stringify(userData));
+    onLogin(userData);
+  } else {
+    alert('Invalid email or password');
+  }
+};
+
+
 
   const handleChange = (e) => {
     setFormData({
@@ -163,7 +196,7 @@ const Login = ({ onLogin }) => {
               onClick={() => setIsSignup(!isSignup)}
               className="text-blue-600 hover:text-blue-700 font-medium"
             >
-              {isSignup ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
+              {/* {isSignup ? 'Already have an account? Sign in' : "Don't have an account? Sign up"} */}
             </button>
           </div>
         </div>
